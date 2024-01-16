@@ -1,7 +1,11 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx,vue}'],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'pokeball': "url('@/assets/pokeball-light.png')",
+      },
+    },
   },
   plugins: [],
 }
