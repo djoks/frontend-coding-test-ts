@@ -1,4 +1,5 @@
-import AppLogo from '@/components/AppLogo.vue'
-import AppMenu from '@/components/AppMenu.vue'
+import AppLogo from './AppLogo.vue'
+import AppMenu from './AppMenu.vue'
+import PokeTile from './PokeTile.vue'
 
-export { AppLogo, AppMenu }
+export { AppLogo, AppMenu, PokeTile }
