@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const menuItems = [
-    { url: '/', title: 'Home' }
+    { url: '/', title: 'Home' },
+    { url: '/pokedex', title: 'PokeDex' }
 ];
 </script>
 
