@@ -3,7 +3,7 @@
         <div ref="card"
             class="flex flex-col items-center justify-end rounded-xl shadow overflow-hidden h-48 w-full bottom-0 bg-pokeball bg-no-repeat bg-center">
             <img :src="pokemon.artwork" :alt="pokemon.name" crossorigin="anonymous" @load="handleImageLoad"
-                class="w-32 object-contain " />
+                class="w-32 object-contain" />
             <div ref="caption"
                 class="flex items-center justify-center space-x-1 py-1 px-2 rounded-full text-center bg-black bg-opacity-20 text-white mb-5">
                 <img src="@/assets/pokeball.png" alt="Pokeball" class="w-3 object-contain" />
