@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
         <poke-tile v-for="pokemon in pokemons" :key="pokemon.id" :pokemon="pokemon" />
     </div>
 </template>
