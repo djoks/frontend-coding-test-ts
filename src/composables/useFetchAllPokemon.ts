@@ -1,8 +1,7 @@
 import { Ref, ref, watch } from 'vue';
 import { useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
-import { Pokemon } from '@/types/pokemon';
-import { PokemonsResponse } from '@/types/pokemonsResponse';
+import { Pokemon, PokemonResponse } from '@/types';
 
 const useFetchAllPokemon = (limit: number = 30): {
     pokemons: Ref<Pokemon[]>;
@@ -35,7 +34,7 @@ const useFetchAllPokemon = (limit: number = 30): {
     }
   `;
 
-    const { result, loading, refetch } = useQuery<PokemonsResponse>(GET_POKEMONS, () => ({ limit, offset: offset.value }));
+    const { result, loading, refetch } = useQuery<PokemonResponse>(GET_POKEMONS, () => ({ limit, offset: offset.value }));
 
     watch(result, (newResult) => {
         if (newResult?.pokemons.results) {

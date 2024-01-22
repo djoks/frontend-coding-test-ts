@@ -4,7 +4,9 @@ import App from './App.vue'
 import initializeRouter from './router'
 import { DefaultApolloClient } from '@vue/apollo-composable';
 import apolloClient from './apollo';
+import { createPinia } from 'pinia'
 
+const pinia = createPinia()
 const app = createApp({
     setup() {
         provide(DefaultApolloClient, apolloClient);
@@ -14,4 +16,5 @@ const app = createApp({
 
 initializeRouter(app)
 
+app.use(pinia)
 app.mount('#app')

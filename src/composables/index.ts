@@ -1,4 +1,5 @@
 import useInfiniteScroll from './useInfiniteScroll'
 import useFetchAllPokemon from './useFetchAllPokemon'
+import useFetchPokemon from './useFetchPokemon'
 
-export { useInfiniteScroll, useFetchAllPokemon }
+export { useInfiniteScroll, useFetchAllPokemon, useFetchPokemon }

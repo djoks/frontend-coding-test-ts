@@ -1,4 +1,4 @@
-import { Color } from "@/types/color";
+import { Color } from "@/types";
 
 /**
  * Retrieves the second most dominant color from an image, lightened by 45%.
@@ -6,7 +6,7 @@ import { Color } from "@/types/color";
  * @param {HTMLImageElement} img - The image element to analyze.
  * @returns {string} The lightened second dominant color as an RGB string, or '#ffffff' if not found.
  */
-export const getDominantImageColor = (img: HTMLImageElement): Color => {
+const getDominantImageColor = (img: HTMLImageElement): Color => {
   let defaultColor: string = 'rgb(255, 255, 255)';
 
   try {
@@ -124,3 +124,5 @@ const darkenColor = (rgb: string, percent: number): string => {
 
   return `rgb(${decrease(r)}, ${decrease(g)}, ${decrease(b)})`;
 };
+
+export default getDominantImageColor;
