@@ -1,6 +1,6 @@
 export default interface PokemonType {
-    type: {
-        id: number;
-        name: string;
-    };
+  type: {
+    id: number
+    name: string
+  }
 }

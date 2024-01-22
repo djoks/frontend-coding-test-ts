@@ -20,7 +20,7 @@ const mainRoutes: RouteRecordRaw[] = [
     name: 'PokeDex',
     props: true,
     component: PokeDex,
-  }
+  },
 ]
 
 const routes: RouteRecordRaw[] = [

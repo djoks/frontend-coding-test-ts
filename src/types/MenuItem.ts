@@ -1,5 +1,4 @@
 export default interface MenuItem {
-    url: string;
-    title: string;
-    isActive: boolean
-};
+  url: string
+  title: string
+}

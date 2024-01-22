@@ -1,31 +1,24 @@
-import { MenuItem } from "@/types";
-import { defineStore } from "pinia"
-import { Ref, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { defineStore } from 'pinia'
+import { Ref, ref } from 'vue'
+import { MenuItem } from '@/types'
 
 const useMenuStore = defineStore('useMenuStore', () => {
-    const route = useRoute();
-    const isVisible: Ref<boolean> = ref(false);
+  const isVisible: Ref<boolean> = ref(false)
 
-    const menuItems: Ref<MenuItem[]> = ref([
-        { url: '/', title: 'Home', isActive: true },
-        { url: '/pokedex', title: 'PokeDex', isActive: false }
-    ]);
+  const menuItems: Ref<MenuItem[]> = ref([
+    { url: '/', title: 'Home' },
+    { url: '/pokedex', title: 'PokeDex' },
+  ])
 
-    const toggleMenu = () => {
-        isVisible.value = true;
-    }
+  const toggleMenu = () => {
+    isVisible.value = true
+  }
 
-    const closeMenu = () => {
-        isVisible.value = false;
-    }
+  const closeMenu = () => {
+    isVisible.value = false
+  }
 
-    watch(route, () => {
-        closeMenu();
-    });
-
-    return { isVisible, menuItems, toggleMenu, closeMenu }
-
+  return { isVisible, menuItems, toggleMenu, closeMenu }
 })
 
-export default useMenuStore;
+export default useMenuStore

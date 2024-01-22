@@ -1,5 +1,5 @@
 export default interface Color {
-    default: string;
-    light: string;
-    dark: string
-};
+  default: string
+  light: string
+  dark: string
+}

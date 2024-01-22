@@ -1,48 +1,4 @@
-import { Color } from "@/types";
-
-/**
- * Retrieves the second most dominant color from an image, lightened by 45%.
- *
- * @param {HTMLImageElement} img - The image element to analyze.
- * @returns {string} The lightened second dominant color as an RGB string, or '#ffffff' if not found.
- */
-const getDominantImageColor = (img: HTMLImageElement): Color => {
-  let defaultColor: string = 'rgb(255, 255, 255)';
-
-  try {
-    const canvas: HTMLCanvasElement = document.createElement('canvas')
-    canvas.width = img.naturalWidth
-    canvas.height = img.naturalHeight
-    const ctx = canvas.getContext('2d')
-
-    if (!ctx) {
-      throw new Error('Canvas context not available')
-    }
-
-    ctx.drawImage(img, 0, 0)
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data
-
-    const colorMap = createColorMap(imageData)
-    const secondDominantColor = findSecondDominantColor(colorMap)
-
-    defaultColor = secondDominantColor ? `rgb(${secondDominantColor})` : defaultColor;
-    const lightColor = secondDominantColor ? lightenColor(secondDominantColor, 45) : defaultColor;
-    const darkColor = secondDominantColor ? darkenColor(secondDominantColor, 15) : defaultColor;
-
-    return {
-      default: defaultColor,
-      light: lightColor,
-      dark: darkColor,
-    };
-  } catch (error) {
-    console.error('Error getting dominant color:', error)
-    return {
-      default: defaultColor,
-      light: defaultColor,
-      dark: defaultColor,
-    };
-  }
-}
+import { Color } from '@/types'
 
 /**
  * Creates a map of colors and their weights based on pixel data.
@@ -103,7 +59,8 @@ const findSecondDominantColor = (
  * @returns {string} The lightened RGB color string.
  */
 const lightenColor = (rgb: string, percent: number): string => {
-  const [r, g, b] = rgb.match(/\d+/g)!.map(Number)
+  const rgbMatches = rgb.match(/\d+/g)
+  const [r, g, b] = rgbMatches ? rgbMatches.map(Number) : [0, 0, 0]
   const increase = (value: number) =>
     Math.min(255, Math.floor(value + (255 - value) * (percent / 100)))
 
@@ -118,11 +75,62 @@ const lightenColor = (rgb: string, percent: number): string => {
  * @returns {string} The darkened RGB color string.
  */
 const darkenColor = (rgb: string, percent: number): string => {
-  const [r, g, b] = rgb.match(/\d+/g)!.map(Number);
+  const rgbMatches = rgb.match(/\d+/g)
+  const [r, g, b] = rgbMatches ? rgbMatches.map(Number) : [0, 0, 0]
   const decrease = (value: number) =>
-    Math.max(0, Math.floor(value - (value * (percent / 100))));
+    Math.max(0, Math.floor(value - value * (percent / 100)))
 
-  return `rgb(${decrease(r)}, ${decrease(g)}, ${decrease(b)})`;
-};
+  return `rgb(${decrease(r)}, ${decrease(g)}, ${decrease(b)})`
+}
 
-export default getDominantImageColor;
+/**
+ * Retrieves the second most dominant color from an image, lightened by 45%.
+ *
+ * @param {HTMLImageElement} img - The image element to analyze.
+ * @returns {string} The lightened second dominant color as an RGB string, or '#ffffff' if not found.
+ */
+const getDominantImageColor = (img: HTMLImageElement): Color => {
+  let defaultColor = 'rgb(255, 255, 255)'
+
+  try {
+    const canvas: HTMLCanvasElement = document.createElement('canvas')
+    canvas.width = img.naturalWidth
+    canvas.height = img.naturalHeight
+    const ctx = canvas.getContext('2d')
+
+    if (!ctx) {
+      throw new Error('Canvas context not available')
+    }
+
+    ctx.drawImage(img, 0, 0)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data
+
+    const colorMap = createColorMap(imageData)
+    const secondDominantColor = findSecondDominantColor(colorMap)
+
+    defaultColor = secondDominantColor
+      ? `rgb(${secondDominantColor})`
+      : defaultColor
+    const lightColor = secondDominantColor
+      ? lightenColor(secondDominantColor, 45)
+      : defaultColor
+    const darkColor = secondDominantColor
+      ? darkenColor(secondDominantColor, 15)
+      : defaultColor
+
+    return {
+      default: defaultColor,
+      light: lightColor,
+      dark: darkColor,
+    }
+  } catch (error) {
+    console.error('Error getting dominant color:', error)
+    return {
+      default: defaultColor,
+      light: defaultColor,
+      dark: defaultColor,
+    }
+  }
+}
+
+export default getDominantImageColor

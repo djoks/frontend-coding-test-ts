@@ -1,6 +1,6 @@
-import Pokemon from "./Pokemon";
+import Pokemon from './Pokemon'
 
 export default interface PokemonState {
-    selectedPokemon: Pokemon | null;
-    isModalOpen: boolean;
+  selectedPokemon: Pokemon | null
+  isModalOpen: boolean
 }
