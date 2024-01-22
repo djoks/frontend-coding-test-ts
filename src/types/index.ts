@@ -7,7 +7,7 @@ import Pokemon from "./Pokemon";
 import PokemonType from "./PokemonType";
 import ShowExercise from "./ShowExercise";
 import Stat from "./Stat";
-
+import MenuItem from "./MenuItem";
 
 export {
     Color,
@@ -18,5 +18,6 @@ export {
     Ability,
     Stat,
     PokemonBio,
-    ShowExercise
+    ShowExercise,
+    MenuItem
 }
