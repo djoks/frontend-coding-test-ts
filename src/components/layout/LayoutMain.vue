@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AppLogo, AppMenu } from '@/components';
+import { AppLogo, AppMenu, AppToast } from '@/components';
 
 </script>
 

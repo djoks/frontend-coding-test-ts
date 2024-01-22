@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-end md:items-center justify-center h-screen w-screen fixed inset-0 top-0 left-0 bg-black bg-opacity-50 z-50 animate-in slide-in-from-bottom"
+    <div class="flex items-end md:items-center justify-center h-screen w-screen fixed inset-0 top-0 left-0 bg-black bg-opacity-50 z-40 animate-in slide-in-from-bottom"
         @click.self="store.closeModal()">
         <div ref="card"
             class="flex flex-col md:flex-row bg-white rounded-xl shadow overflow-hidden w-full md:w-auto max-h-[90vh] md:max-h-full overflow-y-scroll"
