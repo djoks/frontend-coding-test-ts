@@ -1,7 +1,9 @@
 <template>
-    <div v-if="stats" class="flex flex-col w-full space-y-3">
+    <div class="space-y-3">
         <span>Base Stats:</span>
-        <stat-bar :stat="stat" v-for="stat in stats"></stat-bar>
+        <div v-if="stats" class="grid grid-cols-2 md:grid-cols-1 w-full gap-3">
+            <stat-bar :stat="stat" v-for="stat in stats"></stat-bar>
+        </div>
     </div>
 </template>
 
