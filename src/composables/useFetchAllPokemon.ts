@@ -3,7 +3,7 @@ import { useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 import { Pokemon, PokemonResponse } from '@/types';
 
-const useFetchAllPokemon = (limit: number = 30): {
+const useFetchAllPokemon = (limit: number = 20): {
     pokemons: Ref<Pokemon[]>;
     loading: Ref<boolean>;
     nextPage: () => void;
