@@ -1,6 +1,6 @@
 <template>
   <div class="justify-center max-w-md mt-10">
-    <h1 class="font-extrabold tracking-tigh text-3xl leading-10">
+    <h1 class="font-extrabold tracking-tight text-3xl leading-10">
       Ready for the challenge?
     </h1>
     <div class="mt-8">
@@ -58,7 +58,7 @@
           <p>
             For example you can show a toast after something was fetched from
             the public API (which you implemented before) or also in error
-            situtations.
+            situations.
           </p>
         </div>
         <div class="mt-5">
