@@ -8,7 +8,10 @@
                 <div v-if="store.pokemon" class="flex flex-col px-5 py-5 w-full items-center">
                     <div class="flex w-full justify-between capitalize font-bold">
                         <div>#{{ store.pokemon.id }}</div>
-                        <div>{{ store.pokemon.name }}</div>
+                        <div class="flex items-center space-x-2">
+                            <like-button :pokemon="store.pokemon" />
+                            <span>{{ store.pokemon.name }}</span>
+                        </div>
                     </div>
                     <img :src="store.pokemon.artwork" :alt="store.pokemon.name" crossorigin="anonymous"
                         class="w-64 object-contain" />
@@ -38,7 +41,7 @@
 import { Ref, computed, onMounted, onUnmounted, ref } from 'vue';
 import usePokeStore from '@/stores/usePokeStore';
 import { useFetchPokemon } from '@/composables';
-import { PokeTypeList, StatList, Abilities } from '@/components';
+import { PokeTypeList, StatList, Abilities, LikeButton } from '@/components';
 
 const store = usePokeStore();
 

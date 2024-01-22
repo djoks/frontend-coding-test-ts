@@ -38,6 +38,7 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
+    "vite-svg-loader": "^5.1.0",
     "vue-tsc": "^1.8.8"
   }
 }

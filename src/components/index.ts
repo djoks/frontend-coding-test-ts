@@ -7,5 +7,6 @@ import PokeTypeList from './PokeTypeList.vue'
 import StatBar from './StatBar.vue'
 import StatList from './StatList.vue'
 import Abilities from './Abilities.vue'
+import LikeButton from './LikeButton.vue'
 
-export { AppLogo, AppMenu, PokeTile, PokeList, PokeModal, PokeTypeList, StatBar, StatList, Abilities }
+export { AppLogo, AppMenu, PokeTile, PokeList, PokeModal, PokeTypeList, StatBar, StatList, Abilities, LikeButton }

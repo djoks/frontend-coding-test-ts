@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import Logo from '@/assets/logo.svg';
+import LogoType from '@/assets/logo-type.svg';
+
 defineProps({
     textOnly: Boolean,
     imageOnly: Boolean
@@ -7,7 +10,7 @@ defineProps({
 
 <template>
     <div class="flex-shrink-0 flex items-center">
-        <img v-if="!textOnly" class="w-14 h-14" src="@/assets/logo.svg" alt="Zammad Logo Image" />
-        <img v-if="!imageOnly" class="ml-3" src="@/assets/logotype.svg" alt="Zammad Logo Text" />
+        <logo v-if="!textOnly" class="w-14" />
+        <logo-type v-if="!imageOnly" class="ml-3" />
     </div>
 </template>
