@@ -1,6 +1,6 @@
 <template>
   <div class="container pt-5 px-3 mx-auto overflow-y-scroll">
-    <poke-list v-bind:pokemons="pokemons" />
+    <poke-list v-bind:pokemons="pokemons" v-bind:loading="loading" />
 
     <div ref="sentinel" class="sentinel"></div>
 

@@ -1,10 +1,17 @@
 <template>
   <back-drop v-bind:close="store.closeModal">
-    <div ref="card"
+    <div
+      ref="card"
       class="flex flex-col self-center mx-auto md:flex-row bg-white rounded-xl shadow overflow-hidden w-full md:w-auto max-h-[90vh] md:max-h-full overflow-y-scroll"
-      v-on:touchstart="handleTouchStart" v-on:touchmove="handleTouchMove" v-on:touchend="handleTouchEnd">
+      v-on:touchstart="handleTouchStart"
+      v-on:touchmove="handleTouchMove"
+      v-on:touchend="handleTouchEnd"
+    >
       <div class="flex flex-col">
-        <div v-if="store.pokemon" class="flex flex-col px-5 py-5 w-full items-center">
+        <div
+          v-if="store.pokemon"
+          class="flex flex-col px-5 py-5 w-full items-center"
+        >
           <div class="flex w-full justify-between capitalize font-bold">
             <div>#{{ store.pokemon.id }}</div>
             <div class="flex items-center space-x-2">
@@ -12,25 +19,43 @@
               <span>{{ store.pokemon.name }}</span>
             </div>
           </div>
-          <img v-bind:src="store.pokemon.artwork" v-bind:alt="store.pokemon.name" crossorigin="anonymous"
-            class="w-64 object-contain" />
-          <poke-type-list v-if="bio?.types" v-bind:types="bio.types" />
+          <img
+            v-bind:src="store.pokemon.artwork"
+            v-bind:alt="store.pokemon.name"
+            crossorigin="anonymous"
+            class="w-64 object-contain"
+          />
+          <poke-type-list
+            v-bind:types="bio?.types || []"
+            v-bind:loading="loading"
+          />
         </div>
 
         <div class="flex py-1 bg-gray-50">
-          <div class="flex w-1/2 items-center justify-between text-xs px-3 py-4 border-r">
+          <div
+            class="flex w-1/2 items-center justify-between text-xs px-3 py-4 border-r"
+          >
             <span>Weight</span>
-            <span class="font-bold">{{ bio?.weight }} KG</span>
+            <skeleton-loader v-if="loading" class="w-10 h-4 rounded-full" />
+            <span v-else class="font-bold">{{ bio?.weight }} KG</span>
           </div>
-          <div class="flex w-1/2 items-center justify-between text-xs px-3 py-4">
+          <div
+            class="flex w-1/2 items-center justify-between text-xs px-3 py-4"
+          >
             <span>Height</span>
-            <span class="font-bold">{{ bio?.height }} CM</span>
+            <skeleton-loader v-if="loading" class="w-10 h-4 rounded-full" />
+            <span v-else class="font-bold">{{ bio?.height }} CM</span>
           </div>
         </div>
       </div>
-      <div class="flex flex-col bg-white w-full md:w-72 justify-center pt-5 pb-36 md:py-0 px-5 space-y-5">
-        <stat-list v-if="bio?.stats" v-bind:stats="bio.stats" />
-        <poke-abilities v-if="bio?.abilities" v-bind:abilities="bio.abilities" />
+      <div
+        class="flex flex-col bg-white w-full md:w-72 justify-center pt-5 pb-36 md:py-0 px-5 space-y-5"
+      >
+        <stat-list v-bind:stats="bio?.stats || []" v-bind:loading="loading" />
+        <abilities-list
+          v-bind:abilities="bio?.abilities || []"
+          v-bind:loading="loading"
+        />
       </div>
     </div>
   </back-drop>
@@ -42,9 +67,10 @@ import usePokeStore from '@/stores/usePokeStore'
 import { useFetchPokemon } from '@/composables'
 import PokeTypeList from '@/components/PokeTypeList.vue'
 import StatList from '@/components/StatList.vue'
-import PokeAbilities from '@/components/PokeAbilities.vue'
+import AbilitiesList from '@/components/AbilitiesList.vue'
 import LikeButton from '@/components/LikeButton.vue'
 import BackDrop from '@/components/BackDrop.vue'
+import SkeletonLoader from '@/components/loaders/SkeletonLoader.vue'
 
 const store = usePokeStore()
 

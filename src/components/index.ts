@@ -7,7 +7,7 @@ import PokeModal from './PokeModal.vue'
 import PokeTypeList from './PokeTypeList.vue'
 import StatBar from './StatBar.vue'
 import StatList from './StatList.vue'
-import PokeAbilities from './PokeAbilities.vue'
+import AbilitiesList from './AbilitiesList.vue'
 import LikeButton from './LikeButton.vue'
 import AppToast from './AppToast.vue'
 import MenuDrawer from './MenuDrawer.vue'
@@ -23,7 +23,7 @@ export {
   PokeTypeList,
   StatBar,
   StatList,
-  PokeAbilities,
+  AbilitiesList,
   LikeButton,
   AppToast,
   MenuDrawer,
