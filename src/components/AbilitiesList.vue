@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full space-y-3">
-    <span>Abilities:</span>
+    <span class="dark:text-white dark:text-opacity-80">Abilities:</span>
     <div class="flex space-x-2 items-center w-full">
       <template v-if="loading">
         <skeleton-loader
@@ -13,7 +13,7 @@
         v-for="ability in abilities"
         v-else
         v-bind:key="ability.ability.id"
-        class="capitalize bg-gray-200 text-xs py-1 px-3 rounded-full"
+        class="capitalize bg-gray-200 dark:bg-gray-700 dark:text-white dark:text-opacity-80 text-xs py-1 px-3 rounded-full"
         >{{ ability.ability.name }}</span
       >
     </div>

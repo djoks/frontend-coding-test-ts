@@ -1,7 +1,11 @@
 <template>
   <div class="flex-shrink-0 flex items-center space-x-3">
     <logo v-if="!textOnly" v-bind:class="logoClass" />
-    <logo-type v-if="!imageOnly" v-bind:class="logoTypeClass" />
+    <logo-type
+      v-if="!imageOnly"
+      v-bind:class="logoTypeClass"
+      class="dark:opacity-80"
+    />
   </div>
 </template>
 

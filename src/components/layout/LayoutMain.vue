@@ -1,6 +1,8 @@
 <template>
   <app-bar />
-  <main class="flex justify-center">
+  <main
+    class="flex justify-center h-screen dark:bg-gray-800 transition-all delay-50"
+  >
     <router-view />
   </main>
   <teleport to="#modals">

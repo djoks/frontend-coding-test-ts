@@ -3,9 +3,11 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'pokeball': "url('@/assets/pokeball-light.png')",
+        'pokeball-light': "url('@/assets/pokeball-light.png')",
+        'pokeball-dark': "url('@/assets/pokeball-dark.png')",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
+  darkMode: 'class',
 }

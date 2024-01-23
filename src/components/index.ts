@@ -12,6 +12,7 @@ import LikeButton from './LikeButton.vue'
 import AppToast from './AppToast.vue'
 import MenuDrawer from './MenuDrawer.vue'
 import BackDrop from './BackDrop.vue'
+import ThemeSwitch from './ThemeSwitch.vue'
 
 export {
   AppLogo,
@@ -28,4 +29,5 @@ export {
   AppToast,
   MenuDrawer,
   BackDrop,
+  ThemeSwitch,
 }

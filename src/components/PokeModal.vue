@@ -1,8 +1,8 @@
 <template>
   <back-drop v-bind:close="store.closeModal">
     <div
-      ref="card"
-      class="flex flex-col self-center mx-auto md:flex-row bg-white rounded-xl shadow overflow-hidden w-full md:w-auto max-h-[90vh] md:max-h-full overflow-y-scroll"
+      class="flex flex-col self-center mx-auto md:flex-row bg-white dark:bg-gray-700 rounded-xl shadow overflow-hidden w-full md:w-auto max-h-[90vh] md:max-h-full overflow-y-scroll animate-in slide-in-from-bottom"
+      v-bind:style="themeStyle"
       v-on:touchstart="handleTouchStart"
       v-on:touchmove="handleTouchMove"
       v-on:touchend="handleTouchEnd"
@@ -13,10 +13,14 @@
           class="flex flex-col px-5 py-5 w-full items-center"
         >
           <div class="flex w-full justify-between capitalize font-bold">
-            <div>#{{ store.pokemon.id }}</div>
+            <div class="dark:text-white dark:text-opacity-80">
+              #{{ store.pokemon.id }}
+            </div>
             <div class="flex items-center space-x-2">
               <like-button v-bind:pokemon="store.pokemon" />
-              <span>{{ store.pokemon.name }}</span>
+              <span class="dark:text-white dark:text-opacity-80">{{
+                store.pokemon.name
+              }}</span>
             </div>
           </div>
           <img
@@ -31,25 +35,29 @@
           />
         </div>
 
-        <div class="flex py-1 bg-gray-50">
+        <div class="flex py-1 bg-gray-50 dark:bg-gray-800">
           <div
-            class="flex w-1/2 items-center justify-between text-xs px-3 py-4 border-r"
+            class="flex w-1/2 items-center justify-between text-xs px-3 py-4 border-r dark:border-gray-600"
           >
-            <span>Weight</span>
+            <span class="dark:text-white dark:text-opacity-80">Weight</span>
             <skeleton-loader v-if="loading" class="w-10 h-4 rounded-full" />
-            <span v-else class="font-bold">{{ bio?.weight }} KG</span>
+            <span v-else class="font-bold dark:text-white dark:text-opacity-80"
+              >{{ bio?.weight }} KG</span
+            >
           </div>
           <div
             class="flex w-1/2 items-center justify-between text-xs px-3 py-4"
           >
-            <span>Height</span>
+            <span class="dark:text-white dark:text-opacity-80">Height</span>
             <skeleton-loader v-if="loading" class="w-10 h-4 rounded-full" />
-            <span v-else class="font-bold">{{ bio?.height }} CM</span>
+            <span v-else class="font-bold dark:text-white dark:text-opacity-80"
+              >{{ bio?.height }} CM</span
+            >
           </div>
         </div>
       </div>
       <div
-        class="flex flex-col bg-white w-full md:w-72 justify-center pt-5 pb-36 md:py-0 px-5 space-y-5"
+        class="flex flex-col bg-white dark:bg-gray-900 w-full md:w-72 justify-center pt-5 pb-36 md:py-0 px-5 space-y-5"
       >
         <stat-list v-bind:stats="bio?.stats || []" v-bind:loading="loading" />
         <abilities-list
@@ -62,8 +70,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, computed, onMounted, onUnmounted, ref } from 'vue'
-import usePokeStore from '@/stores/usePokeStore'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useFetchPokemon } from '@/composables'
 import PokeTypeList from '@/components/PokeTypeList.vue'
 import StatList from '@/components/StatList.vue'
@@ -71,25 +78,29 @@ import AbilitiesList from '@/components/AbilitiesList.vue'
 import LikeButton from '@/components/LikeButton.vue'
 import BackDrop from '@/components/BackDrop.vue'
 import SkeletonLoader from '@/components/loaders/SkeletonLoader.vue'
+import { usePokeStore, useThemeStore } from '@/stores'
 
 const store = usePokeStore()
+const theme = useThemeStore()
 
 const { result, loading, error } = useFetchPokemon(store.pokemon?.name)
 
 const bio = computed(() => result.value?.pokemon)
 
-const card: Ref<HTMLElement | null> = ref(null)
 const startY = ref(0)
 const currentY = ref(0)
 const touching = ref(false)
 
-onMounted(() => {
-  if (store.pokemon && store.color) {
-    if (card.value) {
-      card.value.style.backgroundColor = store.color.light
+const themeStyle = computed(() => {
+  if (!theme.isDarkMode && store.color) {
+    return {
+      backgroundColor: store.color.light,
     }
   }
+  return {}
+})
 
+onMounted(() => {
   document.body.style.overflow = 'hidden'
 })
 

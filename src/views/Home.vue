@@ -1,5 +1,7 @@
 <template>
-  <div class="justify-center max-w-md mt-10">
+  <div
+    class="justify-center max-w-md mt-10 dark:text-white dark:text-opacity-80 dark:bg-gray-800 overflow-auto pb-10"
+  >
     <h1 class="font-extrabold tracking-tight text-3xl leading-10">
       Ready for the challenge?
     </h1>
@@ -93,7 +95,7 @@
           >
         </div>
       </section>
-      <section v-if="showExercise.third" class="my-10">
+      <section v-if="showExercise.third" class="mt-10">
         <h2 class="font-bold text-2xl leading-6">Exercise 3</h2>
         <div class="mt-5">
           <p>

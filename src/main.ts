@@ -2,6 +2,7 @@ import { createApp, provide, h } from 'vue'
 import './styles/main.css'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import { createPinia } from 'pinia'
+import { useThemeStore } from '@/stores'
 import App from './App.vue'
 import initializeRouter from './router'
 import apolloClient from './apollo'
@@ -17,4 +18,8 @@ const app = createApp({
 initializeRouter(app)
 
 app.use(pinia)
+
+const themeStore = useThemeStore()
+themeStore.initializeTheme()
+
 app.mount('#app')
