@@ -1,5 +1,13 @@
 <template>
   <div class="container pt-5 px-3 mx-auto overflow-y-scroll">
+    <h1 class="flex flex-col md:w-1/2 text-start text-2xl mb-5 font-black dark:text-white">
+      PokeDex
+      <small class="text-sm font-light">This simple Vue application displays a list of pokemon available through the
+        <a class="text-blue-600" href="https://github.com/mazipan/graphql-pokeapi" target="__blank">GraphQL-PokeAPI</a>.
+        Clicking
+        on a Pokemon
+        reveals more details.</small>
+    </h1>
     <poke-list v-bind:pokemons="pokemons" v-bind:loading="loading" />
 
     <div ref="sentinel" class="sentinel"></div>
