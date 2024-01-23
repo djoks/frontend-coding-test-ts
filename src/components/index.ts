@@ -13,6 +13,7 @@ import AppToast from './AppToast.vue'
 import MenuDrawer from './MenuDrawer.vue'
 import BackDrop from './BackDrop.vue'
 import ThemeSwitch from './ThemeSwitch.vue'
+import AppMessage from './AppMessage.vue'
 
 export {
   AppLogo,
@@ -30,4 +31,5 @@ export {
   MenuDrawer,
   BackDrop,
   ThemeSwitch,
+  AppMessage,
 }

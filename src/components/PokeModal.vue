@@ -78,10 +78,11 @@ import AbilitiesList from '@/components/AbilitiesList.vue'
 import LikeButton from '@/components/LikeButton.vue'
 import BackDrop from '@/components/BackDrop.vue'
 import SkeletonLoader from '@/components/loaders/SkeletonLoader.vue'
-import { usePokeStore, useThemeStore } from '@/stores'
+import { usePokeStore, useThemeStore, useToastStore } from '@/stores'
 
 const store = usePokeStore()
 const theme = useThemeStore()
+const toast = useToastStore()
 
 const { result, loading, error } = useFetchPokemon(store.pokemon?.name)
 
@@ -90,6 +91,10 @@ const bio = computed(() => result.value?.pokemon)
 const startY = ref(0)
 const currentY = ref(0)
 const touching = ref(false)
+
+if (error.value) {
+  toast.makeToast('Sorry, an error occurred while trying to retrieve the data.')
+}
 
 const themeStyle = computed(() => {
   if (!theme.isDarkMode && store.color) {

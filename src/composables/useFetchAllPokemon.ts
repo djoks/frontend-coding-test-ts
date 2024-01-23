@@ -45,7 +45,7 @@ const useFetchAllPokemon = (
 
   watch(result, (newResult) => {
     if (newResult?.pokemons.results) {
-      const newPokemons = newResult.pokemons.results as Pokemon[]
+      const newPokemons = newResult.pokemons.results
       pokemons.value = [...pokemons.value, ...newPokemons]
     }
   })
