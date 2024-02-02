@@ -3,6 +3,12 @@ import placeholderImageDarkSrc from '@/assets/pokeball-dark.png'
 import placeholderImageLightSrc from '@/assets/pokeball-light.png'
 import { Card, Pokemon } from '@/types'
 
+/**
+ * A composition function to handle the logic of rendering a simple Pokémon card matching game.
+ *
+ * @param pokemons - A ref array of Pokemon objects to be used in the game.
+ * @returns An object containing various refs and functions to interact with the game.
+ */
 export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
   const canvas: Ref<HTMLCanvasElement | null> = ref(null)
   const ctx: Ref<CanvasRenderingContext2D | null> = ref(null)
@@ -20,6 +26,11 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
   let placeholderImage: HTMLImageElement
   let isDarkMode = false
 
+  /**
+   * Loads the placeholder image based on the current theme mode.
+   *
+   * @returns A promise that resolves when the image is loaded.
+   */
   const loadPlaceholderImage = () => {
     return new Promise((resolve, reject) => {
       placeholderImage = new Image()
@@ -31,10 +42,18 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     })
   }
 
+  /**
+   * Clears the game state from local storage.
+   */
   const clearState = () => {
     localStorage.removeItem('pokemon-game')
   }
 
+  /**
+   * Checks if the win condition is met.
+   *
+   * @returns true if the win condition is met, false otherwise.
+   */
   const checkForWin = () => {
     if (revealedCards.value.length < 3) return false
 
@@ -49,6 +68,9 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     return false
   }
 
+  /**
+   * Checks the game status and updates it accordingly.
+   */
   const checkGameStatus = () => {
     const hasWon = checkForWin()
     const allFlipped = cards.value.every((card) => card.flipped)
@@ -64,6 +86,15 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     }
   }
 
+  /**
+   * Creates a card object with specified dimensions and positioning.
+   *
+   * @param id - The ID of the card.
+   * @param cardWidth - The width of the card.
+   * @param cardHeight - The height of the card.
+   * @param spacing - The spacing between cards.
+   * @returns A Card object.
+   */
   const createCard = (
     id: number,
     cardWidth: number,
@@ -82,6 +113,16 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     }
   }
 
+  /**
+   * Draws a rounded rectangle on the canvas.
+   *
+   * @param ctx - The canvas rendering context.
+   * @param x - The x-coordinate of the rectangle's starting point.
+   * @param y - The y-coordinate of the rectangle's starting point.
+   * @param width - The width of the rectangle.
+   * @param height - The height of the rectangle.
+   * @param radius - The border radius of the rectangle.
+   */
   const drawRoundedRect = (
     ctx: CanvasRenderingContext2D,
     x: number,
@@ -100,6 +141,16 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     ctx.fill()
   }
 
+  /**
+   * Draws the front side of a card.
+   *
+   * @param ctx - The canvas rendering context.
+   * @param card - The card to draw.
+   * @param x - The x-coordinate of the card's position.
+   * @param y - The y-coordinate of the card's position.
+   * @param width - The width of the card.
+   * @param height - The height of the card.
+   */
   const drawCardFront = (
     ctx: CanvasRenderingContext2D,
     card: Card,
@@ -111,6 +162,16 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     ctx.drawImage(placeholderImage, x, y, width, height)
   }
 
+  /**
+   * Draws the back side of a card.
+   *
+   * @param ctx - The canvas rendering context.
+   * @param card - The card to draw.
+   * @param x - The x-coordinate of the card's position.
+   * @param y - The y-coordinate of the card's position.
+   * @param width - The width of the card.
+   * @param height - The height of the card.
+   */
   const drawCardBack = (
     ctx: CanvasRenderingContext2D,
     card: Card,
@@ -127,6 +188,16 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     }
   }
 
+  /**
+   * Draws a card on the canvas, handling its flipping animation.
+   *
+   * @param ctx - The canvas rendering context.
+   * @param card - The card to draw.
+   * @param cardWidth - The width of the card.
+   * @param cardHeight - The height of the card.
+   * @param startX - The starting x-coordinate for drawing.
+   * @param startY - The starting y-coordinate for drawing.
+   */
   const drawCard = (
     ctx: CanvasRenderingContext2D,
     card: Card,
@@ -199,6 +270,11 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     ctx.restore()
   }
 
+  /**
+   * Draws all cards on the canvas.
+   *
+   * @param ctx - The canvas rendering context.
+   */
   const drawCards = async (ctx: CanvasRenderingContext2D) => {
     if (!canvas.value) return
 
@@ -218,6 +294,12 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     )
   }
 
+  /**
+   * Animates the flipping of a card and updates the game state upon completion.
+   *
+   * @param card - The card to animate.
+   * @param onComplete - A callback function to execute upon completion of the flip animation.
+   */
   const animateCardFlip = (card: Card, onComplete: () => void) => {
     const duration = 100 // 1 second
     const start = performance.now()
@@ -244,6 +326,13 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     requestAnimationFrame(animate)
   }
 
+  /**
+   * Checks if the mouse is over a card.
+   *
+   * @param mouseX - The x-coordinate of the mouse position.
+   * @param mouseY - The y-coordinate of the mouse position.
+   * @returns true if the mouse is over a card, false otherwise.
+   */
   const isMouseOverCard = (mouseX: number, mouseY: number) => {
     return cards.value.some((card) => {
       return (
@@ -255,6 +344,9 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     })
   }
 
+  /**
+   * Preloads images of all pokemons used in the game.
+   */
   const preloadPokemonImages = async () => {
     loading.value = true
     const loadedImages = await Promise.all(
@@ -271,6 +363,9 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     loading.value = false
   }
 
+  /**
+   * Sets up the canvas and cards for a new game or upon resizing.
+   */
   const setupCanvasAndCards = () => {
     if (!canvas.value || !canvas.value.parentElement) {
       return
@@ -301,6 +396,9 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     }
   }
 
+  /**
+   * Saves the current game state to local storage.
+   */
   const saveState = () => {
     const state = {
       cards: cards.value.map((card) => ({
@@ -314,6 +412,12 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     localStorage.setItem('pokemon-game', JSON.stringify(state))
   }
 
+  /**
+   * Loads an image asynchronously.
+   *
+   * @param src - The source URL of the image.
+   * @returns A Promise that resolves with the loaded image.
+   */
   const loadImage = (src: string): Promise<HTMLImageElement> => {
     return new Promise((resolve, reject) => {
       const img = new Image()
@@ -323,6 +427,9 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     })
   }
 
+  /**
+   * Loads the game state from local storage.
+   */
   const loadState = async () => {
     const savedData = localStorage.getItem('pokemon-game')
     if (!savedData) return
@@ -357,6 +464,11 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     })
   }
 
+  /**
+   * Handles a click on the card.
+   *
+   * @param event - The mouse event.
+   */
   const handleCardClick = (mouseX: number, mouseY: number) => {
     const clickedCard = cards.value.find((card) => {
       return (
@@ -390,6 +502,11 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     }
   }
 
+  /**
+   * Handles a click on the canvas, determining if a card was clicked.
+   *
+   * @param event - The mouse event.
+   */
   const handleCanvasClick = (event: MouseEvent) => {
     if (!canvas.value) return
 
@@ -399,6 +516,11 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     handleCardClick(mouseX, mouseY)
   }
 
+  /**
+   * Handles mouse movement over the canvas, updating cursor style if over a card.
+   *
+   * @param event - The mouse event.
+   */
   const handleCanvasMouseMove = (event: MouseEvent) => {
     if (!canvas.value) return
 
@@ -410,6 +532,9 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     canvas.value.style.cursor = isOverCard ? 'pointer' : 'default'
   }
 
+  /**
+   * Resets the game to its initial state and starts a new game session.
+   */
   const start = () => {
     clearState()
     // Reset game status
@@ -435,6 +560,9 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     })
   }
 
+  /**
+   * Resets the game to its initial state and starts a new game session.
+   */
   const addEventListeners = (): void => {
     window.addEventListener('resize', setupCanvasAndCards)
 
@@ -444,6 +572,9 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     }
   }
 
+  /**
+   * Resets the game to its initial state and starts a new game session.
+   */
   const removeEventListeners = (): void => {
     window.removeEventListener('resize', setupCanvasAndCards)
 
@@ -453,6 +584,11 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     }
   }
 
+  /**
+   * Initializes the game, setting up the canvas and loading the game state.
+   *
+   * @param darkMode - Indicates if the dark mode is enabled.
+   */
   const initialize = async (darkMode: boolean) => {
     isDarkMode = darkMode
 

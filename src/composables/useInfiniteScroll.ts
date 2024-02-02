@@ -17,7 +17,7 @@ export default function useInfiniteScroll(loadMore: () => void): {
           }
         },
         {
-          rootMargin: '100px', // Adjust as needed
+          rootMargin: '100px',
         },
       )
 
