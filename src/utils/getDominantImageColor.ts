@@ -124,7 +124,6 @@ const getDominantImageColor = (img: HTMLImageElement): Color => {
       dark: darkColor,
     }
   } catch (error) {
-    console.error('Error getting dominant color:', error)
     return {
       default: defaultColor,
       light: defaultColor,

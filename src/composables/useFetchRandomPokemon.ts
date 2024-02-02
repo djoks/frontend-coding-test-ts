@@ -1,4 +1,4 @@
-import { Ref, computed, ref } from 'vue'
+import { Ref, computed } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { Pokemon, PokemonResponse } from '@/types'
@@ -12,6 +12,14 @@ const useFetchRandomPokemon = (
   error: Ref<ApolloError | null>
 } => {
   const offset = Math.floor(Math.random() * 1000)
+
+  const selectRandomPokemons = (
+    pokemons: Pokemon[],
+    count: number,
+  ): Pokemon[] => {
+    const shuffled = [...pokemons].sort(() => 0.5 - Math.random())
+    return shuffled.slice(0, count)
+  }
 
   const GET_POKEMONS = gql`
     query Pokemons($limit: Int!, $offset: Int) {
@@ -38,14 +46,6 @@ const useFetchRandomPokemon = (
   )
 
   return { pokemons, loading, error }
-}
-
-const selectRandomPokemons = (
-  pokemons: Pokemon[],
-  count: number,
-): Pokemon[] => {
-  const shuffled = [...pokemons].sort(() => 0.5 - Math.random())
-  return shuffled.slice(0, count)
 }
 
 export default useFetchRandomPokemon

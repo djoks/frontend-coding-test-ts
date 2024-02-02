@@ -1,9 +1,8 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import ThemeSwitch from '@/components/ThemeSwitch.vue'
 import { createTestingPinia } from '@pinia/testing'
 import { useThemeStore } from '@/stores'
-import { ref } from 'vue'
 
 describe('ThemeSwitch', () => {
   it('toggles theme correctly', async () => {

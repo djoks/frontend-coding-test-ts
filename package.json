@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "lint": "vue-tsc --noEmit && eslint -c .eslintrc.js --ext .js,.ts,.vue src/",
     "lint:fix": "npm run lint -- --fix",
-    "test": "vitest --dom",
+    "test": "vitest run --dom",
     "coverage": "vitest run --coverage",
     "prepare": "husky"
   },
@@ -53,15 +53,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run test && lint-staged"
     }
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix"
-    ],
-    "*.vue": [
-      "eslint --fix"
+    "*.{ts,tsx,vue}": [
+      "npx eslint src --ext .ts,.vue --fix"
     ]
   }
 }

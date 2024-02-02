@@ -1,16 +1,33 @@
 <template>
-  <div v-show="imageLoaded" ref="card"
+  <div
+    v-show="imageLoaded"
+    ref="card"
     class="flex flex-col relative items-center justify-end rounded-xl shadow overflow-hidden h-48 w-full bottom-0 bg-gray-200 dark:!bg-gray-900 bg-pokeball-light filter dark:brightness-75 dark:bg-pokeball-dark bg-no-repeat bg-center bg-contain cursor-pointer"
-    v-bind:style="cardThemeStyle" v-on:click="selectPokemon(pokemon)">
-    <img v-bind:src="pokemon.artwork" v-bind:alt="pokemon.name" crossorigin="anonymous" class="w-32 object-contain"
-      v-on:load="handleImageLoad" />
-    <div ref="caption"
+    v-bind:style="cardThemeStyle"
+    v-on:click="selectPokemon(pokemon)"
+  >
+    <img
+      v-bind:src="pokemon.artwork"
+      v-bind:alt="pokemon.name"
+      crossorigin="anonymous"
+      class="w-32 object-contain"
+      v-on:load="handleImageLoad"
+    />
+    <div
+      ref="caption"
       class="flex items-center justify-center space-x-1 py-1 px-2 rounded-full text-center bg-black dark:bg-gray-700 bg-opacity-20 text-white mb-5"
-      v-bind:style="captionThemeStyle">
-      <img src="@/assets/pokeball.png" alt="Pokeball" class="w-3 object-contain" />
+      v-bind:style="captionThemeStyle"
+    >
+      <img
+        src="@/assets/pokeball.png"
+        alt="Pokeball"
+        class="w-3 object-contain"
+      />
       <span class="capitalize">{{ pokemon.name }}</span>
     </div>
-    <span class="absolute dark:text-white top-2 left-3 filter">#{{ pokemon.id }}</span>
+    <span class="absolute dark:text-white top-2 left-3 filter"
+      >#{{ pokemon.id }}</span
+    >
   </div>
   <skeleton-loader v-if="!imageLoaded" class="w-full h-48 rounded-xl" />
 </template>

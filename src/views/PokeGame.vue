@@ -94,7 +94,7 @@ import RightArrowLight from '@/assets/right-arrow-light.svg'
 import { useThemeStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 
-const { pokemons, loading: loadingPokemon, error } = useFetchRandomPokemon()
+const { pokemons, loading: loadingPokemon } = useFetchRandomPokemon()
 const {
   canvas,
   cards,
@@ -102,7 +102,6 @@ const {
   initialize: initializeGame,
   start: startGame,
   check: checkGame,
-  save: saveGame,
   status,
 } = usePokeGame(pokemons)
 const theme = useThemeStore()

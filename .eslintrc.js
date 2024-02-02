@@ -68,7 +68,11 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
 
     // Don't allow console.log statements
-    'no-console': 'error'
+    'no-console': 'error',
+
+    'no-param-reassign': 'off',
+
+    '@typescript-eslint/no-explicit-any': 'off'
   },
   overrides: [],
   settings: {

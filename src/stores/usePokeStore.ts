@@ -15,7 +15,6 @@ const usePokeStore = defineStore('usePokeStore', () => {
 
   const closeModal = () => {
     isVisible.value = false
-    console.log('closeModal')
   }
 
   return { pokemon, color, isVisible, setPokemon, closeModal }

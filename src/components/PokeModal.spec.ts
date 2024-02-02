@@ -109,7 +109,7 @@ vi.mock('@vue/apollo-composable', () => ({
 }))
 
 describe('PokeModal', () => {
-  let wrapper: VueWrapper<any>
+  let wrapper: VueWrapper
   let pokeStore
 
   beforeEach(() => {

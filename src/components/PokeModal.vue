@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useFetchPokemon, useTouchGesture } from '@/composables'
 import PokeTypeList from '@/components/PokeTypeList.vue'
 import StatList from '@/components/StatList.vue'

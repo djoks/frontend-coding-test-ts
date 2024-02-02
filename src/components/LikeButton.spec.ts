@@ -1,9 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { mount, shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import LikeButton from '@/components/LikeButton.vue'
 import { createTestingPinia } from '@pinia/testing'
-import { useToastStore } from '@/stores'
-import { ref } from 'vue'
 
 const pokemon = { id: 1, name: 'pikachu', artwork: 'https://picsum.photos/200' }
 

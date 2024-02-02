@@ -39,7 +39,6 @@ describe('AppMenu', () => {
         plugins: [router],
       },
     })
-    console.log(wrapper.html())
 
     const menuItems = wrapper.findAll('a[href]')
     expect(menuItems).toHaveLength(2)

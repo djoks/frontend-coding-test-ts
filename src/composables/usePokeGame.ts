@@ -1,12 +1,4 @@
-import {
-  ref,
-  onBeforeUnmount,
-  reactive,
-  Ref,
-  watchEffect,
-  watch,
-  nextTick,
-} from 'vue'
+import { ref, onBeforeUnmount, Ref, watch, nextTick } from 'vue'
 import placeholderImageDarkSrc from '@/assets/pokeball-dark.png'
 import placeholderImageLightSrc from '@/assets/pokeball-light.png'
 import { Card, Pokemon } from '@/types'
@@ -20,9 +12,11 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
   const cardCount = 9
   const cards: Ref<Card[]> = ref([])
   const pokemonImages: Ref<HTMLImageElement[]> = ref([])
+  const revealedCards: Ref<string[]> = ref([])
 
   const cardWidth = 120
   const cardHeight = 120
+
   let placeholderImage: HTMLImageElement
   let isDarkMode = false
 
@@ -35,6 +29,39 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
         ? placeholderImageDarkSrc
         : placeholderImageLightSrc
     })
+  }
+
+  const clearState = () => {
+    localStorage.removeItem('pokemon-game')
+  }
+
+  const checkForWin = () => {
+    if (revealedCards.value.length < 3) return false
+
+    // Get the last three revealed cards
+    const lastThreeReveals = revealedCards.value.slice(-3)
+
+    // Check if all three are the same
+    if (new Set(lastThreeReveals).size === 1) {
+      return true // Win condition met
+    }
+
+    return false
+  }
+
+  const checkGameStatus = () => {
+    const hasWon = checkForWin()
+    const allFlipped = cards.value.every((card) => card.flipped)
+
+    if (hasWon) {
+      status.value = 'won'
+    } else if (allFlipped) {
+      status.value = 'lost'
+    }
+
+    if (status.value === 'won' || status.value === 'lost') {
+      clearState()
+    }
   }
 
   const createCard = (
@@ -114,11 +141,13 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     card.x = startX + col * (cardWidth + 10)
     card.y = startY + row * (cardHeight + 10)
 
-    const flipProgress = card.animating
-      ? card.animationProgress
-      : card.flipped
-      ? 1
-      : 0
+    let flipProgress = 0
+
+    if (card.animating) {
+      flipProgress = card.animationProgress
+    } else if (card.flipped) {
+      flipProgress = 1
+    }
 
     ctx.save()
     ctx.translate(card.x + cardWidth / 2, card.y + cardHeight / 2)
@@ -171,16 +200,18 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
   }
 
   const drawCards = async (ctx: CanvasRenderingContext2D) => {
+    if (!canvas.value) return
+
     if (!placeholderImage) {
       await loadPlaceholderImage()
     }
 
-    ctx.clearRect(0, 0, canvas.value!.width, canvas.value!.height)
+    ctx.clearRect(0, 0, canvas.value.width, canvas.value.height)
 
     const totalWidth = cardWidth * 3 + 10 * 2
     const totalHeight = cardHeight * 3 + 10 * 2
-    const startX = (canvas.value!.width - totalWidth) / 2
-    const startY = (canvas.value!.height - totalHeight) / 2
+    const startX = (canvas.value.width - totalWidth) / 2
+    const startY = (canvas.value.height - totalHeight) / 2
 
     cards.value.forEach((card) =>
       drawCard(ctx, card, cardWidth, cardHeight, startX, startY),
@@ -206,6 +237,7 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
       // Redraw the canvas with the animation progress
       if (ctx.value) {
         drawCards(ctx.value)
+        checkGameStatus()
       }
     }
 
@@ -258,7 +290,7 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
 
     // Only populate cards if they haven't been loaded from state
     if (cards.value.length === 0) {
-      for (let i = 0; i < cardCount; i++) {
+      for (let i = 0; i < cardCount; i += 1) {
         cards.value.push(createCard(i, sizePerCard, sizePerCard, spacing))
       }
     }
@@ -267,41 +299,6 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     if (ctx.value) {
       drawCards(ctx.value)
     }
-  }
-
-  const checkGameStatus = () => {
-    const hasWon = checkForWin()
-    const allFlipped = cards.value.every((card) => card.flipped)
-
-    if (hasWon) {
-      status.value = 'won'
-    } else if (allFlipped) {
-      status.value = 'lost'
-    }
-
-    if (status.value === 'won' || status.value === 'lost') {
-      clearState()
-    }
-  }
-
-  const checkForWin = () => {
-    if (cards.value.length < 3) return false
-
-    for (let i = 0; i <= cards.value.length - 3; i++) {
-      const currentCardImage = cards.value[i].image?.src
-      const nextCardImage = cards.value[i + 1].image?.src
-      const nextNextCardImage = cards.value[i + 2].image?.src
-
-      if (
-        currentCardImage &&
-        currentCardImage === nextCardImage &&
-        currentCardImage === nextNextCardImage
-      ) {
-        return true
-      }
-    }
-
-    return false
   }
 
   const saveState = () => {
@@ -360,8 +357,37 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     })
   }
 
-  const clearState = () => {
-    localStorage.removeItem('pokemon-game')
+  const handleCardClick = (mouseX: number, mouseY: number) => {
+    const clickedCard = cards.value.find((card) => {
+      return (
+        mouseX >= card.x &&
+        mouseX <= card.x + cardWidth &&
+        mouseY >= card.y &&
+        mouseY <= card.y + cardHeight
+      )
+    })
+
+    if (clickedCard) {
+      if (!clickedCard.flipped && !clickedCard.animating) {
+        clickedCard.animating = true
+        clickedCard.animationProgress = 0
+        animateCardFlip(clickedCard, () => {
+          clickedCard.flipped = !clickedCard.flipped
+          clickedCard.revealed = true
+          const randomIndex = Math.floor(
+            Math.random() * pokemonImages.value.length,
+          )
+
+          clickedCard.image = pokemonImages.value[randomIndex]
+          revealedCards.value.push(clickedCard.image.src)
+
+          if (ctx.value) {
+            drawCards(ctx.value)
+            saveState()
+          }
+        })
+      }
+    }
   }
 
   const handleCanvasClick = (event: MouseEvent) => {
@@ -384,54 +410,11 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     canvas.value.style.cursor = isOverCard ? 'pointer' : 'default'
   }
 
-  const handleCardClick = (mouseX: number, mouseY: number) => {
-    const clickedCard = cards.value.find((card) => {
-      return (
-        mouseX >= card.x &&
-        mouseX <= card.x + cardWidth &&
-        mouseY >= card.y &&
-        mouseY <= card.y + cardHeight
-      )
-    })
-
-    if (clickedCard) {
-      if (!clickedCard.flipped && !clickedCard.animating) {
-        clickedCard.animating = true
-        clickedCard.animationProgress = 0
-        animateCardFlip(clickedCard, () => {
-          clickedCard.flipped = !clickedCard.flipped
-          clickedCard.revealed = true
-          const randomIndex = Math.floor(
-            Math.random() * pokemonImages.value.length,
-          )
-          clickedCard.image = pokemonImages.value[randomIndex]
-
-          if (ctx.value) {
-            drawCards(ctx.value)
-            checkGameStatus()
-            saveState()
-          }
-        })
-      }
-    }
-  }
-
-  const initialize = async (darkMode: boolean) => {
-    isDarkMode = darkMode
-
-    if (canvas.value) {
-      ctx.value = canvas.value.getContext('2d')
-      await loadState()
-      setupCanvasAndCards()
-      addEventListeners()
-    }
-  }
-
   const start = () => {
     clearState()
     // Reset game status
     status.value = 'playing'
-
+    revealedCards.value = []
     // Reset cards to their initial state
     cards.value = cards.value.map((card) => ({
       ...card,
@@ -467,6 +450,17 @@ export default function usePokeGame(pokemons: Ref<Pokemon[]>) {
     if (canvas.value) {
       canvas.value.removeEventListener('click', handleCanvasClick)
       canvas.value.removeEventListener('mousemove', handleCanvasMouseMove)
+    }
+  }
+
+  const initialize = async (darkMode: boolean) => {
+    isDarkMode = darkMode
+
+    if (canvas.value) {
+      ctx.value = canvas.value.getContext('2d')
+      await loadState()
+      setupCanvasAndCards()
+      addEventListeners()
     }
   }
 
