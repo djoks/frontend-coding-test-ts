@@ -8,6 +8,7 @@ const useMenuStore = defineStore('useMenuStore', () => {
   const menuItems: Ref<MenuItem[]> = ref([
     { url: '/', title: 'Home' },
     { url: '/pokedex', title: 'PokeDex' },
+    { url: '/pokegame', title: 'PokeGame' },
   ])
 
   const toggleMenu = () => {

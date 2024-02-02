@@ -6,7 +6,7 @@ import {
   RouteRecordRaw,
 } from 'vue-router'
 import LayoutMain from '@/components/layout/LayoutMain.vue'
-import { Home, PokeDex, Error } from '@/views'
+import { Home, PokeDex, Error, PokeGame } from '@/views'
 
 const mainRoutes: RouteRecordRaw[] = [
   {
@@ -20,6 +20,12 @@ const mainRoutes: RouteRecordRaw[] = [
     name: 'PokeDex',
     props: true,
     component: PokeDex,
+  },
+  {
+    path: '/pokegame',
+    name: 'PokeGame',
+    props: true,
+    component: PokeGame,
   },
 ]
 

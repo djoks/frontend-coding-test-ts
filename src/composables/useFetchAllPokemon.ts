@@ -11,7 +11,6 @@ const useFetchAllPokemon = (
   loading: Ref<boolean>
   error: Ref<ApolloError | null>
   nextPage: () => void
-  prevPage: () => void
 } => {
   const offset = ref(0)
   const pokemons = ref<Pokemon[]>([])
@@ -61,14 +60,7 @@ const useFetchAllPokemon = (
     }
   }
 
-  const prevPage = () => {
-    if (result.value && result.value.pokemons.previous) {
-      offset.value = result.value.pokemons.prevOffset
-      fetchPokemons()
-    }
-  }
-
-  return { pokemons, loading, error, nextPage, prevPage }
+  return { pokemons, loading, error, nextPage }
 }
 
 export default useFetchAllPokemon

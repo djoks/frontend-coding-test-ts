@@ -45,7 +45,7 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['tailwind.config.js', 'vite.config.ts'],
+        devDependencies: ['tailwind.config.js', 'vite.config.ts', '**/*.spec.ts', "**/*.spec.tsx"],
       },
     ],
 
@@ -66,6 +66,9 @@ module.exports = {
     'vue/require-default-prop': 'off',
 
     'vue/multi-word-component-names': 'off',
+
+    // Don't allow console.log statements
+    'no-console': 'error'
   },
   overrides: [],
   settings: {

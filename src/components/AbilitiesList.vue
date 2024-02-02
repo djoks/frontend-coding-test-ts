@@ -13,6 +13,7 @@
         v-for="ability in abilities"
         v-else
         v-bind:key="ability.ability.id"
+        role="ability"
         class="capitalize bg-gray-200 dark:bg-gray-700 dark:text-white dark:text-opacity-80 text-xs py-1 px-3 rounded-full"
         >{{ ability.ability.name }}</span
       >

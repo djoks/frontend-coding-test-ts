@@ -1,7 +1,7 @@
 <template>
   <div class="container pt-5 px-3 mx-auto overflow-y-scroll">
     <h1
-      class="flex flex-col md:w-1/2 text-start text-2xl mb-5 font-black dark:text-white"
+      class="flex flex-col md:w-1/2 text-start text-2xl mb-5 font-black dark:text-white dark:text-opacity-80"
     >
       PokeDex
       <small class="text-sm font-light"

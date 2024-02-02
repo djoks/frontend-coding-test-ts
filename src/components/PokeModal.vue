@@ -1,31 +1,28 @@
 <template>
-  <back-drop v-bind:close="store.closeModal">
+  <back-drop v-bind:close="closeModal">
     <div
-      class="flex flex-col self-center mx-auto md:flex-row bg-white dark:bg-gray-700 rounded-xl shadow overflow-hidden w-full md:w-auto max-h-[90vh] md:max-h-full overflow-y-scroll animate-in slide-in-from-bottom"
+      class="flex flex-col self-end md:self-center mx-auto md:flex-row bg-white dark:bg-gray-700 rounded-t-xl md:rounded-xl shadow overflow-hidden w-full md:w-auto max-h-[90vh] bottom-0 md:max-h-full overflow-y-scroll animate-in slide-in-from-bottom"
       v-bind:style="themeStyle"
       v-on:touchstart="handleTouchStart"
       v-on:touchmove="handleTouchMove"
       v-on:touchend="handleTouchEnd"
     >
       <div class="flex flex-col">
-        <div
-          v-if="store.pokemon"
-          class="flex flex-col px-5 py-5 w-full items-center"
-        >
+        <div v-if="pokemon" class="flex flex-col px-5 py-5 w-full items-center">
           <div class="flex w-full justify-between capitalize font-bold">
             <div class="dark:text-white dark:text-opacity-80">
-              #{{ store.pokemon.id }}
+              #{{ pokemon.id }}
             </div>
             <div class="flex items-center space-x-2">
-              <like-button v-bind:pokemon="store.pokemon" />
+              <like-button v-bind:pokemon="pokemon" />
               <span class="dark:text-white dark:text-opacity-80">{{
-                store.pokemon.name
+                pokemon.name
               }}</span>
             </div>
           </div>
           <img
-            v-bind:src="store.pokemon.artwork"
-            v-bind:alt="store.pokemon.name"
+            v-bind:src="pokemon.artwork"
+            v-bind:alt="pokemon.name"
             crossorigin="anonymous"
             class="w-64 object-contain"
           />
@@ -71,7 +68,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useFetchPokemon } from '@/composables'
+import { useFetchPokemon, useTouchGesture } from '@/composables'
 import PokeTypeList from '@/components/PokeTypeList.vue'
 import StatList from '@/components/StatList.vue'
 import AbilitiesList from '@/components/AbilitiesList.vue'
@@ -80,26 +77,24 @@ import BackDrop from '@/components/BackDrop.vue'
 import SkeletonLoader from '@/components/loaders/SkeletonLoader.vue'
 import { usePokeStore, useThemeStore, useToastStore } from '@/stores'
 
-const store = usePokeStore()
+const { pokemon, color, closeModal } = usePokeStore()
 const theme = useThemeStore()
 const toast = useToastStore()
 
-const { result, loading, error } = useFetchPokemon(store.pokemon?.name)
+const { result, loading, error } = useFetchPokemon(pokemon?.name)
+const { handleTouchStart, handleTouchMove, handleTouchEnd } =
+  useTouchGesture(closeModal)
 
 const bio = computed(() => result.value?.pokemon)
-
-const startY = ref(0)
-const currentY = ref(0)
-const touching = ref(false)
 
 if (error.value) {
   toast.makeToast('Sorry, an error occurred while trying to retrieve the data.')
 }
 
 const themeStyle = computed(() => {
-  if (!theme.isDarkMode && store.color) {
+  if (!theme.isDarkMode && color) {
     return {
-      backgroundColor: store.color.light,
+      backgroundColor: color.light,
     }
   }
   return {}
@@ -112,37 +107,4 @@ onMounted(() => {
 onUnmounted(() => {
   document.body.style.overflow = ''
 })
-
-const handleTouchStart = (e: TouchEvent) => {
-  startY.value = e.touches[0].clientY
-  currentY.value = startY.value
-  touching.value = true
-}
-
-const handleTouchMove = (e: TouchEvent) => {
-  if (e.currentTarget) {
-    const target = e.currentTarget as HTMLElement
-
-    currentY.value = e.touches[0].clientY
-    const deltaY = currentY.value - startY.value
-
-    if (deltaY > 0) {
-      target.style.transform = `translateY(${deltaY}px)`
-    }
-  }
-}
-
-const handleTouchEnd = (e: TouchEvent) => {
-  if (e.currentTarget) {
-    const target = e.currentTarget as HTMLElement
-
-    touching.value = false
-    const deltaY = currentY.value - startY.value
-    if (deltaY > 100) {
-      store.closeModal()
-    }
-
-    target.style.transform = ''
-  }
-}
 </script>

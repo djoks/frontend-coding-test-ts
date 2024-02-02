@@ -10,6 +10,4 @@
 
 <script lang="ts" setup>
 import SkeletonLoader from './SkeletonLoader.vue'
-
-defineProps<{ class?: string }>()
 </script>
